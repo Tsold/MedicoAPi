@@ -17,7 +17,7 @@ namespace MedicoHelpAPi.Controllers
         public UsersController(MedicoContext context)
         {
             _context = context;
-        }
+        } 
 
         // GET: api/Users
         [HttpGet]
