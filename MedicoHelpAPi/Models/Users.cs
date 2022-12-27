@@ -11,16 +11,15 @@ namespace MedicoHelpAPi.Models
     {
         public Users()
         {
+            Client = new HashSet<Client>();
             Clinic = new HashSet<Clinic>();
         }
 
         public Guid Iduser { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public DateTime DateOfBirth { get; set; }
         public Guid RoleId { get; set; }
 
         public virtual Roles Role { get; set; }
+        public virtual ICollection<Client> Client { get; set; }
         public virtual ICollection<Clinic> Clinic { get; set; }
     }
 }

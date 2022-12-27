@@ -20,6 +20,7 @@ namespace MedicoHelpAPi.Models
         }
 
         public virtual DbSet<Category> Category { get; set; }
+        public virtual DbSet<Client> Client { get; set; }
         public virtual DbSet<Clinic> Clinic { get; set; }
         public virtual DbSet<MedicalService> MedicalService { get; set; }
         public virtual DbSet<Roles> Roles { get; set; }
@@ -30,7 +31,7 @@ namespace MedicoHelpAPi.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("SqlConnectionString");
+                optionsBuilder.UseSqlServer("Name=SqlConnectionString");
             }
         }
 
@@ -39,7 +40,7 @@ namespace MedicoHelpAPi.Models
             modelBuilder.Entity<Category>(entity =>
             {
                 entity.HasKey(e => e.Idcategory)
-                    .HasName("PK__Category__1AA1EC6620949246");
+                    .HasName("PK__Category__1AA1EC66892E9EA2");
 
                 entity.Property(e => e.Idcategory)
                     .HasColumnName("IDCategory")
@@ -50,10 +51,38 @@ namespace MedicoHelpAPi.Models
                     .HasMaxLength(255);
             });
 
+            modelBuilder.Entity<Client>(entity =>
+            {
+                entity.HasKey(e => e.Idclient)
+                    .HasName("PK__Client__CDECAB2C7CF35A94");
+
+                entity.Property(e => e.Idclient)
+                    .HasColumnName("IDClient")
+                    .ValueGeneratedNever();
+
+                entity.Property(e => e.DateOfBirth).HasColumnType("date");
+
+                entity.Property(e => e.FirstName)
+                    .IsRequired()
+                    .HasMaxLength(50);
+
+                entity.Property(e => e.LastName)
+                    .IsRequired()
+                    .HasMaxLength(50);
+
+                entity.Property(e => e.UserId).HasColumnName("UserID");
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.Client)
+                    .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__Client__UserID__3B75D760");
+            });
+
             modelBuilder.Entity<Clinic>(entity =>
             {
                 entity.HasKey(e => e.Idclinic)
-                    .HasName("PK__Clinic__C47E9FB295796D20");
+                    .HasName("PK__Clinic__C47E9FB25A475B55");
 
                 entity.Property(e => e.Idclinic)
                     .HasColumnName("IDClinic")
@@ -85,13 +114,13 @@ namespace MedicoHelpAPi.Models
                     .WithMany(p => p.Clinic)
                     .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Clinic__UserID__403A8C7D");
+                    .HasConstraintName("FK__Clinic__UserID__3E52440B");
             });
 
             modelBuilder.Entity<MedicalService>(entity =>
             {
                 entity.HasKey(e => e.Idservice)
-                    .HasName("PK__MedicalS__5049E73A42DBC000");
+                    .HasName("PK__MedicalS__5049E73A1553CD97");
 
                 entity.Property(e => e.Idservice)
                     .HasColumnName("IDService")
@@ -117,19 +146,19 @@ namespace MedicoHelpAPi.Models
                     .WithMany(p => p.MedicalService)
                     .HasForeignKey(d => d.Idclinic)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__MedicalSe__IDCli__47DBAE45");
+                    .HasConstraintName("FK__MedicalSe__IDCli__45F365D3");
 
                 entity.HasOne(d => d.Subcategory)
                     .WithMany(p => p.MedicalService)
                     .HasForeignKey(d => d.SubcategoryId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__MedicalSe__Subca__48CFD27E");
+                    .HasConstraintName("FK__MedicalSe__Subca__46E78A0C");
             });
 
             modelBuilder.Entity<Roles>(entity =>
             {
                 entity.HasKey(e => e.Idrole)
-                    .HasName("PK__Roles__A1BA16C477329D01");
+                    .HasName("PK__Roles__A1BA16C48F8C6FF5");
 
                 entity.Property(e => e.Idrole)
                     .HasColumnName("IDRole")
@@ -143,7 +172,7 @@ namespace MedicoHelpAPi.Models
             modelBuilder.Entity<Subcategory>(entity =>
             {
                 entity.HasKey(e => e.Idsubcategory)
-                    .HasName("PK__Subcateg__49059B46DA7228C9");
+                    .HasName("PK__Subcateg__49059B46B964A788");
 
                 entity.Property(e => e.Idsubcategory)
                     .HasColumnName("IDSubcategory")
@@ -159,27 +188,17 @@ namespace MedicoHelpAPi.Models
                     .WithMany(p => p.Subcategory)
                     .HasForeignKey(d => d.CategoryId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Subcatego__Categ__44FF419A");
+                    .HasConstraintName("FK__Subcatego__Categ__4316F928");
             });
 
             modelBuilder.Entity<Users>(entity =>
             {
                 entity.HasKey(e => e.Iduser)
-                    .HasName("PK__Users__EAE6D9DF66D1A246");
+                    .HasName("PK__Users__EAE6D9DF51A234A9");
 
                 entity.Property(e => e.Iduser)
                     .HasColumnName("IDUser")
                     .ValueGeneratedNever();
-
-                entity.Property(e => e.DateOfBirth).HasColumnType("date");
-
-                entity.Property(e => e.FirstName)
-                    .IsRequired()
-                    .HasMaxLength(50);
-
-                entity.Property(e => e.LastName)
-                    .IsRequired()
-                    .HasMaxLength(50);
 
                 entity.Property(e => e.RoleId).HasColumnName("RoleID");
 
@@ -187,7 +206,7 @@ namespace MedicoHelpAPi.Models
                     .WithMany(p => p.Users)
                     .HasForeignKey(d => d.RoleId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Users__RoleID__3D5E1FD2");
+                    .HasConstraintName("FK__Users__RoleID__38996AB5");
             });
 
             OnModelCreatingPartial(modelBuilder);
