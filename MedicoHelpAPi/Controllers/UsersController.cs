@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MedicoHelpAPi.Models;
@@ -17,7 +18,7 @@ namespace MedicoHelpAPi.Controllers
         public UsersController(MedicoContext context)
         {
             _context = context;
-        } 
+        }
 
         // GET: api/Users
         [HttpGet]
@@ -28,7 +29,7 @@ namespace MedicoHelpAPi.Controllers
 
         // GET: api/Users/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Users>> GetUsers(Guid id)
+        public async Task<ActionResult<Users>> GetUsers(string id)
         {
             var users = await _context.Users.FindAsync(id);
 
@@ -44,7 +45,7 @@ namespace MedicoHelpAPi.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutUsers(Guid id, Users users)
+        public async Task<IActionResult> PutUsers(string id, Users users)
         {
             if (id != users.Iduser)
             {
@@ -92,7 +93,7 @@ namespace MedicoHelpAPi.Controllers
                 else
                 {
                     throw;
-                } 
+                }
             }
 
             return CreatedAtAction("GetUsers", new { id = users.Iduser }, users);
@@ -100,7 +101,7 @@ namespace MedicoHelpAPi.Controllers
 
         // DELETE: api/Users/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Users>> DeleteUsers(Guid id)
+        public async Task<ActionResult<Users>> DeleteUsers(string id)
         {
             var users = await _context.Users.FindAsync(id);
             if (users == null)
@@ -114,7 +115,7 @@ namespace MedicoHelpAPi.Controllers
             return users;
         }
 
-        private bool UsersExists(Guid id)
+        private bool UsersExists(string id)
         {
             return _context.Users.Any(e => e.Iduser == id);
         }
