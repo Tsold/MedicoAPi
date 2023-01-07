@@ -40,7 +40,7 @@ namespace MedicoHelpAPi.Models
             modelBuilder.Entity<Category>(entity =>
             {
                 entity.HasKey(e => e.Idcategory)
-                    .HasName("PK__Category__1AA1EC665662789A");
+                    .HasName("PK__Category__1AA1EC66D932200D");
 
                 entity.Property(e => e.Idcategory)
                     .HasColumnName("IDCategory")
@@ -54,7 +54,7 @@ namespace MedicoHelpAPi.Models
             modelBuilder.Entity<Client>(entity =>
             {
                 entity.HasKey(e => e.Idclient)
-                    .HasName("PK__Client__CDECAB2C75259E19");
+                    .HasName("PK__Client__CDECAB2C49DBF8F5");
 
                 entity.Property(e => e.Idclient)
                     .HasColumnName("IDClient")
@@ -79,13 +79,13 @@ namespace MedicoHelpAPi.Models
                     .WithMany(p => p.Client)
                     .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Client__UserID__33D4B598");
+                    .HasConstraintName("FK__Client__UserID__29572725");
             });
 
             modelBuilder.Entity<Clinic>(entity =>
             {
                 entity.HasKey(e => e.Idclinic)
-                    .HasName("PK__Clinic__C47E9FB2BDAD61B9");
+                    .HasName("PK__Clinic__C47E9FB227FC1026");
 
                 entity.Property(e => e.Idclinic)
                     .HasColumnName("IDClinic")
@@ -102,6 +102,10 @@ namespace MedicoHelpAPi.Models
                 entity.Property(e => e.Email)
                     .IsRequired()
                     .HasMaxLength(200);
+
+                entity.Property(e => e.Latitude).HasColumnType("decimal(9, 6)");
+
+                entity.Property(e => e.Longitude).HasColumnType("decimal(9, 6)");
 
                 entity.Property(e => e.Phone)
                     .IsRequired()
@@ -120,13 +124,13 @@ namespace MedicoHelpAPi.Models
                     .WithMany(p => p.Clinic)
                     .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Clinic__UserID__36B12243");
+                    .HasConstraintName("FK__Clinic__UserID__2C3393D0");
             });
 
             modelBuilder.Entity<MedicalService>(entity =>
             {
                 entity.HasKey(e => e.Idservice)
-                    .HasName("PK__MedicalS__5049E73A7B80A5C8");
+                    .HasName("PK__MedicalS__5049E73A62655A2F");
 
                 entity.Property(e => e.Idservice)
                     .HasColumnName("IDService")
@@ -152,19 +156,19 @@ namespace MedicoHelpAPi.Models
                     .WithMany(p => p.MedicalService)
                     .HasForeignKey(d => d.Idclinic)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__MedicalSe__IDCli__398D8EEE");
+                    .HasConstraintName("FK__MedicalSe__IDCli__33D4B598");
 
                 entity.HasOne(d => d.Subcategory)
                     .WithMany(p => p.MedicalService)
                     .HasForeignKey(d => d.SubcategoryId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__MedicalSe__Subca__3A81B327");
+                    .HasConstraintName("FK__MedicalSe__Subca__34C8D9D1");
             });
 
             modelBuilder.Entity<Roles>(entity =>
             {
                 entity.HasKey(e => e.Idrole)
-                    .HasName("PK__Roles__A1BA16C45E823689");
+                    .HasName("PK__Roles__A1BA16C469B3A327");
 
                 entity.Property(e => e.Idrole)
                     .HasColumnName("IDRole")
@@ -178,7 +182,7 @@ namespace MedicoHelpAPi.Models
             modelBuilder.Entity<Subcategory>(entity =>
             {
                 entity.HasKey(e => e.Idsubcategory)
-                    .HasName("PK__Subcateg__49059B461D88A0EB");
+                    .HasName("PK__Subcateg__49059B4674883CCC");
 
                 entity.Property(e => e.Idsubcategory)
                     .HasColumnName("IDSubcategory")
@@ -194,13 +198,13 @@ namespace MedicoHelpAPi.Models
                     .WithMany(p => p.Subcategory)
                     .HasForeignKey(d => d.CategoryId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Subcatego__Categ__2E1BDC42");
+                    .HasConstraintName("FK__Subcatego__Categ__30F848ED");
             });
 
             modelBuilder.Entity<Users>(entity =>
             {
                 entity.HasKey(e => e.Iduser)
-                    .HasName("PK__Users__EAE6D9DF3600B5CC");
+                    .HasName("PK__Users__EAE6D9DF98834E36");
 
                 entity.Property(e => e.Iduser)
                     .HasColumnName("IDUser")
