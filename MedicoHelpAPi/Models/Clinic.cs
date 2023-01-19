@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text.Json.Serialization;
 
 // Code scaffolded by EF Core assumes nullable reference types (NRTs) are not used or disabled.
 // If you have enabled NRTs for your project, then un-comment the following line:
@@ -12,7 +11,7 @@ namespace MedicoHelpAPi.Models
     {
         public Clinic()
         {
-            MedicalService = new HashSet<MedicalService>();
+            ClinicalService = new HashSet<ClinicalService>();
         }
 
         public Guid Idclinic { get; set; }
@@ -25,10 +24,7 @@ namespace MedicoHelpAPi.Models
         public decimal Latitude { get; set; }
         public decimal Longitude { get; set; }
 
-        [JsonIgnore]
         public virtual Users User { get; set; }
-        [JsonIgnore]
-        public virtual ICollection<MedicalService> MedicalService { get; set; }
         public virtual ICollection<ClinicalService> ClinicalService { get; set; }
     }
 }
