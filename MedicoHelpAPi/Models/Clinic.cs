@@ -29,5 +29,6 @@ namespace MedicoHelpAPi.Models
         public virtual Users User { get; set; }
         [JsonIgnore]
         public virtual ICollection<MedicalService> MedicalService { get; set; }
+        public virtual ICollection<ClinicalService> ClinicalService { get; set; }
     }
 }

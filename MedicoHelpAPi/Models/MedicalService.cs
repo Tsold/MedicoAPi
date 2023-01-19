@@ -10,17 +10,17 @@ namespace MedicoHelpAPi.Models
 {
     public partial class MedicalService
     {
-        public Guid Idservice { get; set; }
-        public Guid Idclinic { get; set; }
+        public MedicalService()
+        {
+            ClinicalService = new HashSet<ClinicalService>();
+        }
+
+        public Guid IdmedicalService { get; set; }
         public Guid SubcategoryId { get; set; }
         public string ServiceName { get; set; }
-        public string ShortDes { get; set; }
-        public decimal Price { get; set; }
-        public string Preparation { get; set; }
-
-        [JsonIgnore]
-        public virtual Clinic IdclinicNavigation { get; set; }
         [JsonIgnore]
         public virtual Subcategory Subcategory { get; set; }
+        [JsonIgnore]
+        public virtual ICollection<ClinicalService> ClinicalService { get; set; }
     }
 }

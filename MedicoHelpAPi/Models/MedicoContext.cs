@@ -22,6 +22,7 @@ namespace MedicoHelpAPi.Models
         public virtual DbSet<Category> Category { get; set; }
         public virtual DbSet<Client> Client { get; set; }
         public virtual DbSet<Clinic> Clinic { get; set; }
+        public virtual DbSet<ClinicalService> ClinicalService { get; set; }
         public virtual DbSet<MedicalService> MedicalService { get; set; }
         public virtual DbSet<Roles> Roles { get; set; }
         public virtual DbSet<Subcategory> Subcategory { get; set; }
@@ -127,16 +128,18 @@ namespace MedicoHelpAPi.Models
                     .HasConstraintName("FK__Clinic__UserID__2C3393D0");
             });
 
-            modelBuilder.Entity<MedicalService>(entity =>
+            modelBuilder.Entity<ClinicalService>(entity =>
             {
                 entity.HasKey(e => e.Idservice)
-                    .HasName("PK__MedicalS__5049E73A62655A2F");
+                    .HasName("PK__Clinical__5049E73A63D36D0E");
 
                 entity.Property(e => e.Idservice)
                     .HasColumnName("IDService")
                     .ValueGeneratedNever();
 
                 entity.Property(e => e.Idclinic).HasColumnName("IDClinic");
+
+                entity.Property(e => e.MedicalServiceId).HasColumnName("MedicalServiceID");
 
                 entity.Property(e => e.Preparation).HasMaxLength(255);
 
@@ -150,19 +153,39 @@ namespace MedicoHelpAPi.Models
                     .IsRequired()
                     .HasMaxLength(255);
 
-                entity.Property(e => e.SubcategoryId).HasColumnName("SubcategoryID");
-
                 entity.HasOne(d => d.IdclinicNavigation)
-                    .WithMany(p => p.MedicalService)
+                    .WithMany(p => p.ClinicalService)
                     .HasForeignKey(d => d.Idclinic)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__MedicalSe__IDCli__33D4B598");
+                    .HasConstraintName("FK__ClinicalS__IDCli__3A81B327");
+
+                entity.HasOne(d => d.MedicalService)
+                    .WithMany(p => p.ClinicalService)
+                    .HasForeignKey(d => d.MedicalServiceId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__ClinicalS__Medic__3B75D760");
+            });
+
+            modelBuilder.Entity<MedicalService>(entity =>
+            {
+                entity.HasKey(e => e.IdmedicalService)
+                    .HasName("PK__MedicalS__CB9515A821B729AD");
+
+                entity.Property(e => e.IdmedicalService)
+                    .HasColumnName("IDMedicalService")
+                    .ValueGeneratedNever();
+
+                entity.Property(e => e.ServiceName)
+                    .IsRequired()
+                    .HasMaxLength(125);
+
+                entity.Property(e => e.SubcategoryId).HasColumnName("SubcategoryID");
 
                 entity.HasOne(d => d.Subcategory)
                     .WithMany(p => p.MedicalService)
                     .HasForeignKey(d => d.SubcategoryId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__MedicalSe__Subca__34C8D9D1");
+                    .HasConstraintName("FK__MedicalSe__Subca__37A5467C");
             });
 
             modelBuilder.Entity<Roles>(entity =>
