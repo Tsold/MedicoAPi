@@ -12,6 +12,7 @@ namespace MedicoHelpAPi.Models
         public Clinic()
         {
             ClinicalService = new HashSet<ClinicalService>();
+            WorkingHours = new HashSet<WorkingHours>();
         }
 
         public Guid Idclinic { get; set; }
@@ -26,5 +27,6 @@ namespace MedicoHelpAPi.Models
 
         public virtual Users User { get; set; }
         public virtual ICollection<ClinicalService> ClinicalService { get; set; }
+        public virtual ICollection<WorkingHours> WorkingHours { get; set; }
     }
 }

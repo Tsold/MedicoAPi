@@ -27,6 +27,8 @@ namespace MedicoHelpAPi.Models
         public virtual DbSet<Roles> Roles { get; set; }
         public virtual DbSet<Subcategory> Subcategory { get; set; }
         public virtual DbSet<Users> Users { get; set; }
+        public virtual DbSet<WeekDays> WeekDays { get; set; }
+        public virtual DbSet<WorkingHours> WorkingHours { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -240,6 +242,51 @@ namespace MedicoHelpAPi.Models
                     .HasForeignKey(d => d.RoleId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__Users__RoleID__267ABA7A");
+            });
+
+            modelBuilder.Entity<WeekDays>(entity =>
+            {
+                entity.HasKey(e => e.IdweekDays)
+                    .HasName("PK__WeekDays__3C56FB41907893DB");
+
+                entity.Property(e => e.IdweekDays)
+                    .HasColumnName("IDWeekDays")
+                    .ValueGeneratedNever();
+
+                entity.Property(e => e.DayName)
+                    .IsRequired()
+                    .HasMaxLength(3)
+                    .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<WorkingHours>(entity =>
+            {
+                entity.HasKey(e => e.IdavailableTimeFrame)
+                    .HasName("PK__WorkingH__46B80DA66C94EAD1");
+
+                entity.Property(e => e.IdavailableTimeFrame)
+                    .HasColumnName("IDAvailableTimeFrame")
+                    .ValueGeneratedNever();
+
+                entity.Property(e => e.Datefrom).HasColumnType("datetime");
+
+                entity.Property(e => e.Dateto).HasColumnType("datetime");
+
+                entity.Property(e => e.Idclinic).HasColumnName("IDClinic");
+
+                entity.Property(e => e.WeekDayId).HasColumnName("WeekDayID");
+
+                entity.HasOne(d => d.IdclinicNavigation)
+                    .WithMany(p => p.WorkingHours)
+                    .HasForeignKey(d => d.Idclinic)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__WorkingHo__IDCli__619B8048");
+
+                entity.HasOne(d => d.WeekDay)
+                    .WithMany(p => p.WorkingHours)
+                    .HasForeignKey(d => d.WeekDayId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__WorkingHo__WeekD__60A75C0F");
             });
 
             OnModelCreatingPartial(modelBuilder);
