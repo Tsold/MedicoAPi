@@ -1,7 +1,6 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
-using MedicoHelpAPi.Models;
 
 // Code scaffolded by EF Core assumes nullable reference types (NRTs) are not used or disabled.
 // If you have enabled NRTs for your project, then un-comment the following line:
@@ -25,6 +24,7 @@ namespace MedicoHelpAPi.Models
         public virtual DbSet<Clinic> Clinic { get; set; }
         public virtual DbSet<ClinicalService> ClinicalService { get; set; }
         public virtual DbSet<MedicalService> MedicalService { get; set; }
+        public virtual DbSet<Meeting> Meeting { get; set; }
         public virtual DbSet<Roles> Roles { get; set; }
         public virtual DbSet<Subcategory> Subcategory { get; set; }
         public virtual DbSet<Users> Users { get; set; }
@@ -191,6 +191,42 @@ namespace MedicoHelpAPi.Models
                     .HasConstraintName("FK__MedicalSe__Subca__37A5467C");
             });
 
+            modelBuilder.Entity<Meeting>(entity =>
+            {
+                entity.HasKey(e => e.Idmeeting)
+                    .HasName("PK__Meeting__4D42C9E38AE6661A");
+
+                entity.Property(e => e.Idmeeting)
+                    .HasColumnName("IDMeeting")
+                    .ValueGeneratedNever();
+
+                entity.Property(e => e.Datefrom).HasColumnType("datetime");
+
+                entity.Property(e => e.Dateto).HasColumnType("datetime");
+
+                entity.Property(e => e.EventName)
+                    .IsRequired()
+                    .HasMaxLength(255)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.ServiceId).HasColumnName("ServiceID");
+
+                entity.Property(e => e.UserId)
+                    .HasColumnName("UserID")
+                    .HasMaxLength(128);
+
+                entity.HasOne(d => d.Service)
+                    .WithMany(p => p.Meeting)
+                    .HasForeignKey(d => d.ServiceId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__Meeting__Service__656C112C");
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.Meeting)
+                    .HasForeignKey(d => d.UserId)
+                    .HasConstraintName("FK__Meeting__UserID__66603565");
+            });
+
             modelBuilder.Entity<Roles>(entity =>
             {
                 entity.HasKey(e => e.Idrole)
@@ -294,7 +330,5 @@ namespace MedicoHelpAPi.Models
         }
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
-
-        public DbSet<MedicoHelpAPi.Models.Meeting> Meeting { get; set; }
     }
 }

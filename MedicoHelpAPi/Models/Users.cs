@@ -13,6 +13,7 @@ namespace MedicoHelpAPi.Models
         {
             Client = new HashSet<Client>();
             Clinic = new HashSet<Clinic>();
+            Meeting = new HashSet<Meeting>();
         }
 
         public string Iduser { get; set; }
@@ -21,5 +22,6 @@ namespace MedicoHelpAPi.Models
         public virtual Roles Role { get; set; }
         public virtual ICollection<Client> Client { get; set; }
         public virtual ICollection<Clinic> Clinic { get; set; }
+        public virtual ICollection<Meeting> Meeting { get; set; }
     }
 }

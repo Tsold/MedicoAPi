@@ -9,6 +9,11 @@ namespace MedicoHelpAPi.Models
 {
     public partial class ClinicalService
     {
+        public ClinicalService()
+        {
+            Meeting = new HashSet<Meeting>();
+        }
+
         public Guid Idservice { get; set; }
         public Guid Idclinic { get; set; }
         public Guid MedicalServiceId { get; set; }
@@ -19,5 +24,6 @@ namespace MedicoHelpAPi.Models
 
         public virtual Clinic IdclinicNavigation { get; set; }
         public virtual MedicalService MedicalService { get; set; }
+        public virtual ICollection<Meeting> Meeting { get; set; }
     }
 }

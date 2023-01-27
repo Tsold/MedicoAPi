@@ -9,7 +9,7 @@ namespace MedicoHelpAPi.Models
 {
     public partial class Meeting
     {
-        public string MeetingId { get; set; }
+        public Guid Idmeeting { get; set; }
         public Guid ServiceId { get; set; }
         public string UserId { get; set; }
         public DateTime Datefrom { get; set; }

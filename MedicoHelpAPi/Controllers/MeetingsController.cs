@@ -29,7 +29,7 @@ namespace MedicoHelpAPi.Controllers
 
         // GET: api/Meetings/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Meeting>> GetMeeting(string id)
+        public async Task<ActionResult<Meeting>> GetMeeting(Guid id)
         {
             var meeting = await _context.Meeting.FindAsync(id);
 
@@ -45,9 +45,9 @@ namespace MedicoHelpAPi.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutMeeting(string id, Meeting meeting)
+        public async Task<IActionResult> PutMeeting(Guid id, Meeting meeting)
         {
-            if (id != meeting.MeetingId)
+            if (id != meeting.Idmeeting)
             {
                 return BadRequest();
             }
@@ -86,7 +86,7 @@ namespace MedicoHelpAPi.Controllers
             }
             catch (DbUpdateException)
             {
-                if (MeetingExists(meeting.MeetingId))
+                if (MeetingExists(meeting.Idmeeting))
                 {
                     return Conflict();
                 }
@@ -96,12 +96,12 @@ namespace MedicoHelpAPi.Controllers
                 }
             }
 
-            return CreatedAtAction("GetMeeting", new { id = meeting.MeetingId }, meeting);
+            return CreatedAtAction("GetMeeting", new { id = meeting.Idmeeting }, meeting);
         }
 
         // DELETE: api/Meetings/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Meeting>> DeleteMeeting(string id)
+        public async Task<ActionResult<Meeting>> DeleteMeeting(Guid id)
         {
             var meeting = await _context.Meeting.FindAsync(id);
             if (meeting == null)
@@ -115,9 +115,9 @@ namespace MedicoHelpAPi.Controllers
             return meeting;
         }
 
-        private bool MeetingExists(string id)
+        private bool MeetingExists(Guid id)
         {
-            return _context.Meeting.Any(e => e.MeetingId == id);
+            return _context.Meeting.Any(e => e.Idmeeting == id);
         }
     }
 }
