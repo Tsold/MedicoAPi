@@ -29,18 +29,17 @@ namespace MedicoHelpAPi.Controllers
 
         // GET: api/ClinicalServices/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<ClinicalService>> GetClinicalService(Guid id)
+        public async Task<ActionResult<IEnumerable<ClinicalService>>> GetClinicalService(Guid id)
         {
-            var clinicalService = await _context.ClinicalService.FindAsync(id);
+            var clinicalServices = await _context.ClinicalService.Where(s => s.MedicalServiceId == id).ToListAsync();
 
-            if (clinicalService == null)
+            if (clinicalServices == null)
             {
                 return NotFound();
             }
 
-            return clinicalService;
+            return clinicalServices;
         }
-
         // PUT: api/ClinicalServices/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.

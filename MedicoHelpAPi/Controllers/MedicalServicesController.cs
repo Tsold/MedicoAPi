@@ -26,19 +26,18 @@ namespace MedicoHelpAPi.Controllers
         {
             return await _context.MedicalService.ToListAsync();
         }
-
         // GET: api/MedicalServices/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<MedicalService>> GetMedicalService(Guid id)
+        public async Task<ActionResult<IEnumerable<MedicalService>>> GetMedicalService(Guid id)
         {
-            var medicalService = await _context.MedicalService.FindAsync(id);
+            var medicalServices = await _context.MedicalService.Where(s => s.SubcategoryId == id).ToListAsync();
 
-            if (medicalService == null)
+            if (medicalServices == null)
             {
                 return NotFound();
             }
 
-            return medicalService;
+            return medicalServices;
         }
 
         // PUT: api/MedicalServices/5

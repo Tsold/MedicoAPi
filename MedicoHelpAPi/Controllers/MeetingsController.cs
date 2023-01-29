@@ -29,16 +29,16 @@ namespace MedicoHelpAPi.Controllers
 
         // GET: api/Meetings/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Meeting>> GetMeeting(Guid id)
+        public async Task<ActionResult<IEnumerable<Meeting>>> GetMeeting(Guid id)
         {
-            var meeting = await _context.Meeting.FindAsync(id);
+            var meetings = await _context.Meeting.Where(s => s.ServiceId == id).ToListAsync();
 
-            if (meeting == null)
+            if (meetings == null)
             {
                 return NotFound();
             }
 
-            return meeting;
+            return meetings;
         }
 
         // PUT: api/Meetings/5

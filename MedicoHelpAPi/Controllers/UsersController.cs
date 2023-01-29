@@ -115,6 +115,18 @@ namespace MedicoHelpAPi.Controllers
             return users;
         }
 
+        // GET: api/Users/5
+        [HttpGet("Login/{id}")]
+        public async Task<ActionResult<Roles>> CheckIfFirstLogin(string id)
+        {
+            var user = await _context.Users.FindAsync(id);
+            var role = _context.Roles.Where(u => u.Idrole == user.RoleId).Single();
+            if (user == null) return NotFound();
+            if (_context.Client.Any(e => e.UserId == id)) { Response.StatusCode = 244; }
+            if (_context.Clinic.Any(e => e.UserId == id)) { Response.StatusCode = 244; }
+            return role;
+        }
+
         private bool UsersExists(string id)
         {
             return _context.Users.Any(e => e.Iduser == id);

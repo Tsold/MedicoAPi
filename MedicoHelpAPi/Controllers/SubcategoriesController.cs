@@ -29,16 +29,16 @@ namespace MedicoHelpAPi.Controllers
 
         // GET: api/Subcategories/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Subcategory>> GetSubcategory(Guid id)
+        public async Task<ActionResult<IEnumerable<Subcategory>>> GetSubcategory(Guid id)
         {
-            var subcategory = await _context.Subcategory.FindAsync(id);
+            var subcategories = await _context.Subcategory.Where(s => s.CategoryId == id).ToListAsync();
 
-            if (subcategory == null)
+            if (subcategories == null)
             {
                 return NotFound();
             }
 
-            return subcategory;
+            return subcategories;
         }
 
         // PUT: api/Subcategories/5
